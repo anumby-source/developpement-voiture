@@ -2,7 +2,7 @@
 developpement autour d'une voiture multicapteur : nous regardons ensemble les évolutions possibles du modèle en partant de cette base simple à fabriquer : construire soi-même le support, ajouter des capteurs, préparer un habitacle avec des éclairages, installer une caméra pour faire de l'IA..
 
 # le kit anumby voiture-robot
-Anumby propose aux nouveaux adhérents de monter soi-même son voiture-robot. 10 nouveaux kits seront disponibles en avril 2022 gratuitement pour les nouveaux membres ou avec une participation de 10 € avec un atelier ouvert à tous d'une journée. La voiture-robot obeit à des ordres simples pour avancer, reculer ou tourner
+Anumby propose aux nouveaux adhérents de monter soi-même sa voiture-robot. 10 nouveaux kits seront disponibles en avril 2022 gratuitement pour les nouveaux membres ou avec une participation de 10 € avec un atelier ouvert à tous d'une journée. La voiture-robot obeit à des ordres simples pour avancer, reculer ou tourner
 
 # Robot multi fonctionnel
 De nouveaux capteurs pour la voiture-multicapteur ! Toutes les idées sont bonnes ! Vous pouvez ajouter à la voiture-robot de nouveaux capteurs, un capot lumineux ou refaire le socle. Nous vous aidons à réaliser vos projets
