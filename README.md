@@ -14,7 +14,7 @@ derniers ajouts :
 
 développement autour d'une voiture évoluée : Les ateliers de robotique ont beaucoup de succès et ANUMBY a utilisé un kit de montage et un logiciel maison pour réaliser soi-même une voiture commandée par WIFI 
 
-Le codage du logiciel n'a pas intéressé les nouveaux arrivants parce que l'intérêt immédiat était de repartir après une journée d'initiation avec chacun sa voiture ; nous regardons ensemble les évolutions possibles du modèle en partant de cette base simple à fabriquer : construire soi-même le support (socle), ajouter des capteurs, préparer un habitacle avec des éclairages, installer une caméra pour faire de l'IA..
+Le codage du logiciel était livré tout prêt pour les nouveaux arrivants parce que l'intérêt immédiat était de repartir après une journée d'initiation avec chacun sa voiture ; nous regardons ensemble les évolutions possibles du modèle en partant de cette base simple à fabriquer : construire soi-même le support (socle), ajouter des capteurs, préparer un habitacle avec des éclairages, installer une caméra pour faire de l'IA..
 
 # le socle
 
