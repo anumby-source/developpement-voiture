@@ -4,8 +4,8 @@ developpement autour d'une voiture multicapteur : nous regardons ensemble les é
 # le kit anumby voiture-robot
 Anumby propose aux nouveaux adhérents de monter soi-même son voiture-robot. 10 kits seront disponibles en avril 2022 gratuitement pour les nouveaux membres ou avec une participation de 10 € avec un atelier ouvert à tous d'une journée. La voiture-robot obeit à des ordres simples pour avancer, reculer ou tourner
 
-# de nouveaux capteurs poiur la voiture-multicapteur
-Toutes les idées sont bonnes ! Vous pouvez ajouter de nouveaux capteurs à la voiture
+# De nouveaux capteurs pour la voiture-multicapteur
+Toutes les idées sont bonnes ! Vous pouvez ajouter de nouveaux capteurs à la voiture. Nous vous aidons à réaliser vos projets
 
 derniers ajouts :
 
