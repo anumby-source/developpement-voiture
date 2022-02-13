@@ -1,4 +1,4 @@
-wiki [voiture](https://github.com/anumby-source/developpement-voiture/wiki) [raspberry pico](https://github.com/anumby-source/raspberry-pico/wiki) [boite à outils jouets](https://github.com/anumby-source/jouets/wiki) [ piano](https://github.com/arnaudrco/piano-pour-adulte-debutant/wiki)
+wiki :[voiture](https://github.com/anumby-source/developpement-voiture/wiki),[raspberry pico](https://github.com/anumby-source/raspberry-pico/wiki) , boite à outils](https://github.com/anumby-source/jouets/wiki), [ piano](https://github.com/arnaudrco/piano-pour-adulte-debutant/wiki)
 
 # developpement-voiture
 developpement autour d'une voiture multicapteur : nous regardons ensemble les évolutions possibles du modèle en partant de cette base simple à fabriquer : construire soi-même le support, ajouter des capteurs, préparer un habitacle avec des éclairages, installer une caméra pour faire de l'IA..
