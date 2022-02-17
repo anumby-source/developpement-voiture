@@ -1,90 +1,118 @@
-/*********
-  Rui Santos
-  Complete project details at https://RandomNerdTutorials.com/esp8266-nodemcu-hc-sr04-ultrasonic-arduino/
-  
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files.
-  
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-*********/
+/*
+ * 
+ * Si la distance est inférieure à la distance définie pour éviter les obstacles il y a un obstacle devant nous. Donc dans cette situation le robot fait une pause pendant un moment et recule après cela, fait une pause pendant un moment puis tourne dans une autre direction.
+ * 
+ * 
+ * 
+ */
+#define capteur A0
+#define PinA 0 // broche enable du L298N pour le premier moteur
+#define PinB 2 //  broche enable du L298N pour le deuxième moteur
+#define SpeedA 5 // Premier moteur
+#define SpeedB 4 // Deuxième moteur
 
-#include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
 
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 64 // OLED display height, in pixels
+#define NB_ITERATION        100  // itérations de la fonction delta   
 
-// Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
-
+#define ARRIERE 0 // recule
+#define DROITE 1 // tourne à droite
+#define GAUCHE 2 // tourne à gauche
+#define AVANT 3 // avant
 const int trigPin = D6;
-const int echoPin = D5;
+const int echoPin = D7;
 
 //define sound speed in cm/uS
 #define SOUND_SPEED 0.034
-#define CM_TO_INCH 0.393701
 
-long duration;
-int distanceCm;
-int distanceInch;
+int initial ; // valeur initiale du capteur balance lumière
+int dir= AVANT ; // direction tout droit
 
-void setup() {
-  Serial.begin(115200);
-    Serial.println(F("----------------------"));
+int AA=700; // target Speed
+ // int AA=0; // TEST UNIQUEMENT
+unsigned long tempoLampe ;        // will store last time LAMPE was updated
+const long intervalLampe = 2000; 
+
+//-------------- SET UP--------------------------
+void bip(void){ // test moteur 
+        digitalWrite(PinA, HIGH);digitalWrite(PinB, HIGH);
+               analogWrite(SpeedA,AA);analogWrite(SpeedB,AA);
+               delay(100);
+                analogWrite(SpeedA,0);analogWrite(SpeedB,0); 
+                 delay(400);          
+}
+void moteur_stop(void) {
+      analogWrite(SpeedA,0);analogWrite(SpeedB,0);
+  
+}
+void moteur_droite(void) {
+      analogWrite(SpeedA,AA);analogWrite(SpeedB,AA);
+      digitalWrite(PinA, HIGH);digitalWrite(PinB, LOW);
+  
+}
+void moteur_avance(void) {
+      analogWrite(SpeedA,AA);analogWrite(SpeedB,AA);
+      digitalWrite(PinA, HIGH);digitalWrite(PinB, HIGH);
+  
+}
+void moteur_recule(void) {
+      analogWrite(SpeedA,AA);analogWrite(SpeedB,AA);
+      digitalWrite(PinA, LOW);digitalWrite(PinB, LOW);
+  
+}
+void setup()
+{
+unsigned long currentMillis = millis();
+tempoLampe=currentMillis;
+Serial.begin(115200);
+
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
-    pinMode(LED_BUILTIN, OUTPUT);
+pinMode(PinA, OUTPUT);
+pinMode(PinB, OUTPUT);
+pinMode(SpeedA, OUTPUT);
+pinMode(SpeedB, OUTPUT);
+digitalWrite(PinA, LOW);
+digitalWrite(PinB, LOW);
+ //        mmm.init(AA,AA);
+   //              mmm.start(ARRIERE);
+  bip();  // test moteur
+       delay(1000);
 
-  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-    Serial.println(F("SSD1306 allocation failed"));
-    for(;;);
-  }
-  delay(500);
-  display.clearDisplay();
-
-  display.setTextSize(2);
-  display.setTextColor(WHITE);
 }
-
-void loop() {
-  // Clears the trigPin
-  digitalWrite(trigPin, LOW);
+int ultrason() {
+    long duration;
+    digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
   // Sets the trigPin on HIGH state for 10 micro seconds
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
-  
   // Reads the echoPin, returns the sound wave travel time in microseconds
   duration = pulseIn(echoPin, HIGH);
   
-  // Calculate the distance
-  distanceCm = duration * SOUND_SPEED/2;
-  
-  // Convert to inches
-  distanceInch = distanceCm * CM_TO_INCH;
-  
-  // Prints the distance in the Serial Monitor
-  Serial.print("Distance (cm): ");
-  Serial.println(distanceCm);
- // Serial.print("Distance (inch): ");
- // Serial.println(distanceInch);
-
-  display.clearDisplay();
-  display.setCursor(0, 25);
-  // Display distance in cm
-  display.print(distanceCm);
-  display.print(" cm");
-  
-  // Display distance in inches
-  /*display.print(distanceInch);
-  display.print(" in");*/
-  display.display(); 
-  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(250);                       // wait for a second
-  digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-  delay(250); 
-
+  //   Serial.println(duration * SOUND_SPEED/2);
+   if ((duration < 60000) && (duration > 1)) {   // Calculate the distance
+    return( duration * SOUND_SPEED/2 ); 
+   } else {
+    return(0); 
+   } 
 }
+void loop() { 
+  // unsigned long currentMillis = millis();
+ int Len_cm;
+  Len_cm = ultrason();
+     Serial.println(Len_cm);
+      if (Len_cm < 18) {
+      // very close object (<10 cm), stop the robot (standby)
+      moteur_stop();
+    } else if (Len_cm < 40) {
+      // turn around
+      moteur_stop();delay(500);
+      moteur_recule();delay(500);
+      moteur_stop();delay(100);
+      moteur_droite();delay(500);
+    }
+    else {
+      moteur_avance();
+    }
+  }
