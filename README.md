@@ -1,7 +1,11 @@
 anumby : [developpement-voiture](https://github.com/anumby-source/developpement-voiture/wiki) [jouets](https://github.com/anumby-source/jouets/wiki) [raspberry-pico](https://github.com/anumby-source/raspberry-pico/wiki) arnaudrco : [exemples-de-montages](https://github.com/arnaudrco/exemples/wiki) [visio](https://github.com/arnaudrco/visio/wiki) [festisol](https://github.com/arnaudrco/festisol/wiki) [CROUS-micro-python](https://github.com/arnaudrco/CROUS-micro-python/wiki) [piano](https://github.com/arnaudrco/piano-pour-adulte-debutant/wiki) Ateliers Numériques [Repair Café d'Orsay](https://www.repaircafe-orsay.org/category/blog/ateliers-numeriques-blog/) 
 
 
-https://user-images.githubusercontent.com/90700891/155979957-6dc05abc-9102-4dac-84f2-ec0a1cbd87c7.mp4
+Uploading ultrason.mp4…
+
+
+
+
 
 
 # developpement-voiture
@@ -35,6 +39,8 @@ Nous pouvons réaliser un socle en carton solide avec plusieurs épaisseurs de c
 ![affiche](https://github.com/anumby-source/developpement-voiture/blob/main/carton.JPG)
 
 # les capteurs
+
+https://user-images.githubusercontent.com/90700891/155979957-6dc05abc-9102-4dac-84f2-ec0a1cbd87c7.mp4
 
 ## utilisation d'accéléromètres 
 
