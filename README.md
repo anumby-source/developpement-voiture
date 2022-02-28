@@ -5,7 +5,7 @@ anumby : [developpement-voiture](https://github.com/anumby-source/developpement-
 https://user-images.githubusercontent.com/90700891/155990377-5c4f1362-04a4-40f6-9944-eb9b7a41df36.mp4
 
 
-
+![voiture-eclairee](https://github.com/anumby-source/jouets/blob/main/voiture-eclairee/avec-papier-blanc.gif)
 
 
 # developpement-voiture
