@@ -40,6 +40,8 @@ Nous pouvons réaliser un socle en carton solide avec plusieurs épaisseurs de c
 
 # les capteurs
 
+amusez vous à guider la voiture avec une cellule solaire et 2 diodes clignotantes même dans le noir !
+
 https://user-images.githubusercontent.com/90700891/155979957-6dc05abc-9102-4dac-84f2-ec0a1cbd87c7.mp4
 
 ## utilisation d'accéléromètres 
