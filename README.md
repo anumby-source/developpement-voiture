@@ -7,6 +7,9 @@ https://user-images.githubusercontent.com/90700891/155990377-5c4f1362-04a4-40f6-
 # developpement-voiture
 developpement autour d'une voiture multicapteur : nous regardons ensemble les évolutions possibles du modèle en partant de cette base simple à fabriquer : construire soi-même le support, ajouter des capteurs, préparer un habitacle avec des éclairages, installer une caméra pour faire de l'IA..
 
+
+
+
 # le kit anumby voiture-robot
 Anumby propose aux nouveaux adhérents de monter soi-même sa voiture-robot. 10 nouveaux kits seront disponibles en avril 2022 gratuitement pour les nouveaux membres ou avec une participation de 10 € avec un atelier ouvert à tous d'une journée. La voiture-robot obeit à des ordres simples pour avancer, reculer ou tourner
 
@@ -64,6 +67,10 @@ Le capteur de couleurs peut être amélioré en utilisant le gamma, la couleur d
 ## GPS
 
 ![affiche](https://github.com/anumby-source/developpement-voiture/blob/main/gps.png)
+
+## moteurs supplémentaires
+
+![l298](https://user-images.githubusercontent.com/90700891/156392381-5b2c2a66-36c1-4359-bf46-7a4571b0a055.png)
 
 ## capteurs solaires
 
