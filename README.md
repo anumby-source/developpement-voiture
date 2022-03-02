@@ -68,13 +68,16 @@ Le capteur de couleurs peut être amélioré en utilisant le gamma, la couleur d
 
 ![affiche](https://github.com/anumby-source/developpement-voiture/blob/main/gps.png)
 
+## capteurs solaires
+
+[une voiture pour suivre une ligne blanche](https://github.com/anumby-source/jouets/tree/main/voiture-eclairee)
+
 ## moteurs supplémentaires
 
 ![l298](https://user-images.githubusercontent.com/90700891/156392381-5b2c2a66-36c1-4359-bf46-7a4571b0a055.png)
 
-## capteurs solaires
+![IRFZ44](https://user-images.githubusercontent.com/90700891/156397244-41fe732b-15b9-498d-b7f8-b292f4cc4a9b.png)
 
-[une voiture pour suivre une ligne blanche](https://github.com/anumby-source/jouets/tree/main/voiture-eclairee)
 
 # utilisation de l'intelligence artificielle (IA) 
 
