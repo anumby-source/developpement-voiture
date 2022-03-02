@@ -78,6 +78,10 @@ Le capteur de couleurs peut être amélioré en utilisant le gamma, la couleur d
 
 ![IRFZ44](https://user-images.githubusercontent.com/90700891/156397244-41fe732b-15b9-498d-b7f8-b292f4cc4a9b.png)
 
+## servo moteurs
+
+https://user-images.githubusercontent.com/90700891/156402292-697312b3-5815-46db-a0f9-fc1f832c97cc.mp4
+
 
 # utilisation de l'intelligence artificielle (IA) 
 
