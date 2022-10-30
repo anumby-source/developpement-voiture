@@ -1,5 +1,14 @@
 /*
 ESP32-CAM Remote Control 
+
+https://randomnerdtutorials.com/esp32-cam-car-robot-web-server/
+https://randomnerdtutorials.com/esp32-cam-access-point-ap-web-server/
+
+const int MotPin0 = 12;  
+const int MotPin1 = 13;  
+const int MotPin2 = 14;  
+const int MotPin3 = 15;
+
 */
 
 const char* ssid = "Your_WIFI_Network";
@@ -65,7 +74,7 @@ const char* password = "Your password";
 #define XCLK_GPIO_NUM      0
 #define SIOD_GPIO_NUM     26
 #define SIOC_GPIO_NUM     27
-
+https://randomnerdtutorials.com/esp32-cam-car-robot-web-server/
 #define Y9_GPIO_NUM       35
 #define Y8_GPIO_NUM       34
 #define Y7_GPIO_NUM       39
@@ -141,7 +150,7 @@ void setup()
   if(psramFound()){
     config.frame_size = FRAMESIZE_QVGA;
     config.jpeg_quality = 10;
-    config.fb_count = 2;
+    config.fb_count = 2;https://randomnerdtutorials.com/esp32-cam-car-robot-web-server/
   } else {
     config.frame_size = FRAMESIZE_QVGA;
     config.jpeg_quality = 12;
