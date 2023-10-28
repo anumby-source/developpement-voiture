@@ -18,7 +18,8 @@
 
 class LGFX : public lgfx::LGFX_Device
 {
-    lgfx::Panel_ILI9341 _panel_instance;
+//    lgfx::Panel_ILI9341 _panel_instance;
+    lgfx::Panel_ST7789 _panel_instance; // pour modèle ST7789
     lgfx::Bus_SPI _bus_instance;
     lgfx::Touch_XPT2046 _touch_instance;
     lgfx::Light_PWM _light_instance;
