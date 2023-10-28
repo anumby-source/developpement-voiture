@@ -1,4 +1,4 @@
-//测试通过
+// Programme de test 
 
 #include <vector>
 #include <SPI.h>
@@ -32,8 +32,8 @@ void setup(void)
     // digitalWrite(LCD_BL, HIGH);
 
     lcd.init();
-    sd_init();
-    sd_test();
+//    sd_init();
+//    sd_test();
 
     // lcd.setRotation(0);
     print_img(SD, "/logo.bmp", 240, 320);
