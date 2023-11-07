@@ -1,8 +1,10 @@
 /*
- * Arnaud https://github.com/arnaudrco/exemples/blob/main/Telecommande-IR-servomoteur/IR-esp-mp3-board-sleep/IR-esp-mp3-board-sleep.ino
- * ATTENTION rentrer les codes pour votre télécommande (emetteur IR)
- 
-MODELE 433 MHz 
+
+
+MODELE 433 MHz avec 2 touches préprogrammées 
+
+  RC1 : moteur avant
+  RC2 : moteur arriere
 
 
 MODELE PROGRAMMABLE
