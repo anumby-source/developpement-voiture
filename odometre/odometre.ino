@@ -1,6 +1,9 @@
 /*
- * Arnaud https://github.com/arnaudrco/exemples/blob/main/Telecommande-IR-servomoteur/IR-esp-mp3-board-sleep/IR-esp-mp3-board-sleep.ino
- * ATTENTION rentrer les codes pour votre télécommande (emetteur IR)
+
+Ce n'est pas si facile parce que les 2 moteurs ne sont pas identiques.
+J'ai voulu voir si un robot pouvait se diriger avec uniquement une roue codeuse 
+avec des élastiques pour éviter les glissements et une petite correction de l’asymétrie des moteurs cela marche 
+pour sortir d'un labyrinthe, rien de mieux que de compter ses pas !
  
  ajouter la bibliothèque IRremoteESP8266 dans outils > gérer les bibliothèque
 
@@ -50,6 +53,7 @@ TM1637Display display(CLK, DIO); //set up the 4-Digit Display.
 #define droite 3
 #define gauche 4
 
+#define ERREUR 30 // erreur pour correction de l’asymétrie des moteurs
 #define TEMPO 500 // temporisation 
 
 int lastDirection = 1;
@@ -57,8 +61,7 @@ int lastRotation = 0; // sens de rotation
 int isr_compte; // décompte pour 1 tour 
 int isr_z; // angle de rotation sur axe z
 // ---------------------------Forth-------------
-#define ERREUR 30 // erreur entre moteur
-#define MAX 100
+#define MAX 100 // nombre de commandes enregistrées dans la pile
 int Index=0;
 byte Forth[MAX]; // pile Forth
 int vitesse = 192;  // 0 à 255
