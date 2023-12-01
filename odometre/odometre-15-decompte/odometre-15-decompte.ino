@@ -7,7 +7,9 @@
 MODELE PROGRAMMABLE
 
 pas de 15 cm
- 
+correction des erreurs automatique entre les 2 moteurs ( v / TRIM ) 
+freinage sur les derniers cm
+
  */
 #include <Arduino.h>
 #include <IRremoteESP8266.h>
@@ -51,13 +53,19 @@ int lastDirection = 1;
 int lastRotation = 0; // sens de rotation 
 int isr_compte; // décompte pour 1 tour 
 int isr_compte2; // décompte pour 1 tour 
+unsigned long isr_timer; // timer pour 1 tour 
+unsigned long isr_timer2; // timer pour 1 tour 
+int isr_ms; // duree écoulée entre 2 ticks 
+int isr_ms2; // duree écoulée entre 2 ticks
 int isr_z; // angle de rotation sur axe z
 int erreur=0;
 int erreur2=0;
 
 // ---------------------------Forth-------------
-#define TRIM 30 // erreur entre moteur 
+#define TRIM 3 // erreur entre moteur 
 #define TOURS 19 // tours pour faire 90 °  
+#define PARCOURS 25 // parcours 15 cm
+#define FREINAGE 10 // freinage sur les derniers cm
 #define MAX 100
 int Index=0;
 byte Forth[MAX]; // pile Forth
@@ -95,12 +103,15 @@ void setup() {
 
 }
 ICACHE_RAM_ATTR void isr() {
- //       Serial.println("isr");
-  isr_compte++;
+  isr_compte--;
+  isr_ms = millis()- isr_timer; // duree écoulée entre 2 ticks
+  isr_timer += isr_ms;
 }
 ICACHE_RAM_ATTR void isr2() {
  //       Serial.println("isr");
-  isr_compte2++;
+  isr_compte2--;
+  isr_ms2 = millis()- isr_timer2; // duree écoulée entre 2 ticks
+  isr_timer2 += isr_ms2;
 }
 void empile( byte x ){
       Serial.print("empile ");
@@ -116,7 +127,7 @@ void execute() {
 }
 void moteurC( int x){
       timer= millis();
-    isr_compte = 0; isr_compte2 = 0;
+    isr_compte = TOURS; isr_compte2 = TOURS;
     while ( ( millis() - timer ) < 1000)
     {
           moteurH(x);
@@ -125,15 +136,16 @@ void moteurC( int x){
         stop();   
 }
 void moteurH(int x){ // impulsion de 10 ms puis arret  
-   if ((isr_compte > TOURS) || (isr_compte2 > TOURS ) ) {
+  int i=max(isr_compte,isr_compte2); // nb de ticks restants 
+   if (i<= 0  ) { 
       stop();   
-   } else {
-    moteur(x,vitesse); 
-//    if( isr_compte > isr_compte2) stop1();
-//    if( isr_compte2 > isr_compte) stop2();
-    delay(50);
-           stop();    
-          if(min(isr_compte,isr_compte2) > 10) delay( min(isr_compte,isr_compte2));
+   } else if ( i > 10 ) moteur(x, vitesse);
+   else {
+    int t = min( isr_ms, isr_ms2 ) ; // durée entre ticks
+    int t_objectif =  50 / i ; 
+    if ( t > t_objectif ) moteur(x, vitesse); else {
+      moteur(x, 0);
+    }
    } 
 }
 void stop() { 
@@ -142,15 +154,6 @@ void stop() {
     analogWrite(moteur2A, 0);
   analogWrite(moteur2B, 0);
 }
-void stop1() { 
-    analogWrite(moteur1A, 0);
-  analogWrite(moteur1B, 0);
-}
-void stop2() { 
-    analogWrite(moteur2A, 0);
-  analogWrite(moteur2B, 0);
-
-}
 void moteur( int x, int v){
     switch (x){
  //     if (lastDirection != x) v=255; // accélération de départ
@@ -158,19 +161,19 @@ void moteur( int x, int v){
             // Serial.print("Moteur avant");
                       lastDirection = avant;   lastRotation = 0;    
                       analogWrite(moteur1A, 0);
-                  analogWrite(moteur1B, v); if( isr_compte > isr_compte2) analogWrite(moteur1B, v/2); 
+                  analogWrite(moteur1B, v); if( isr_compte < isr_compte2) analogWrite(moteur1B, v/TRIM); 
                  analogWrite(moteur2A, 0);
-                  analogWrite(moteur2B, v );if( isr_compte2 > isr_compte) analogWrite(moteur2B, v/2); 
+                  analogWrite(moteur2B, v );if( isr_compte2 < isr_compte) analogWrite(moteur2B, v/TRIM); 
                       //    Serial.print(isr_compte);Serial.print(":");Serial.println(isr_compte2);
                           
         break;
         case arriere :
             // Serial.print("Moteur arriere"); 
             lastDirection = arriere; lastRotation = 0;
-                        analogWrite(moteur1A, v);if( isr_compte > isr_compte2) analogWrite(moteur1A, v/2); 
+                        analogWrite(moteur1A, v);if( isr_compte < isr_compte2) analogWrite(moteur1A, v/TRIM); 
                   analogWrite(moteur1B, 0);
                    //moteur 2
-                 analogWrite(moteur2A, v );if( isr_compte2 > isr_compte) analogWrite(moteur2A, v/2); 
+                 analogWrite(moteur2A, v );if( isr_compte2 < isr_compte) analogWrite(moteur2A, v/TRIM); 
                   analogWrite(moteur2B, 0);
              //             Serial.print(isr_compte);Serial.print(":");Serial.println(isr_compte2);
 
@@ -180,8 +183,8 @@ void moteur( int x, int v){
               // Serial.println("Moteur droite"); 
              lastRotation = 1; lastDirection = droite;
             analogWrite(moteur1A, 0);
-            analogWrite(moteur1B, v ); if( isr_compte > isr_compte2) analogWrite(moteur1B, v/2); 
-            analogWrite(moteur2A, v); if( isr_compte2 > isr_compte) analogWrite(moteur2A, v/2); 
+            analogWrite(moteur1B, v ); if( isr_compte < isr_compte2) analogWrite(moteur1B, v/TRIM); 
+            analogWrite(moteur2A, v); if( isr_compte2 < isr_compte) analogWrite(moteur2A, v/TRIM); 
             analogWrite(moteur2B, 0); 
            // Serial.print(isr_compte);Serial.print(" 2:");Serial.println(isr_compte2);
  
@@ -190,17 +193,19 @@ void moteur( int x, int v){
         case gauche :
             // Serial.println("Moteur gauche"); 
             lastRotation = -1; lastDirection = gauche;
-            analogWrite(moteur1A,  v ); if( isr_compte > isr_compte2) analogWrite(moteur1A, v/2); 
+            analogWrite(moteur1A,  v ); if( isr_compte < isr_compte2) analogWrite(moteur1A, v/TRIM); 
             analogWrite(moteur1B, 0);
             analogWrite(moteur2A, 0);
-            analogWrite(moteur2B, v);if( isr_compte2 > isr_compte) analogWrite(moteur2B, v/2); 
+            analogWrite(moteur2B, v);if( isr_compte2 < isr_compte) analogWrite(moteur2B, v/TRIM); 
          //   Serial.print(isr_compte);Serial.print(" 2:");Serial.println(isr_compte2);
         break;
   }
 }
 void loop() {
      if((millis()-timer)>100){ // print data every 10ms
-        Serial.print(isr_compte);      Serial.print(":");    Serial.print(isr_compte2); Serial.print(":");Serial.print(erreur);      Serial.print(":");    Serial.println(erreur2);
+        if ( min(isr_ms, isr_ms2 ) > 0 ) {
+          Serial.print(isr_compte);      Serial.print(":");    Serial.print(isr_compte2); Serial.print(":");Serial.print(isr_ms); Serial.print(":");    Serial.println(isr_ms2);
+        }
             timer = millis();  
   }  
     if ((millis()- dodo) > 300000){ 
@@ -216,7 +221,6 @@ void loop() {
   }
   moteurH(lastDirection); // impulsion 
   if (irrecv.decode(&results)) {
-  isr_compte = erreur ; isr_compte2 = erreur2 ; // initialise avec erreur précédente
       mmm= millis();    dodo= millis();
     // print() & println() can't handle printing long longs. (uint64_t)
     serialPrintUint64(results.value, HEX);
@@ -224,26 +228,30 @@ void loop() {
 //-----------------------------   moteur 1 ou 2  ---------------------  <<  >>
       case HAUT : 
       case HAUT1 : 
+        isr_compte = PARCOURS ; isr_compte2 = PARCOURS ; // initialise avec erreur précédente
            countM++; if(programmation)  empile( avant); else moteur(avant,vitesse);
              break;
       case BAS :
       case BAS1 :
+        isr_compte = PARCOURS ; isr_compte2 = PARCOURS ; // initialise avec erreur précédente
            countM++; if(programmation) empile( arriere);else moteur(arriere,vitesse);
              break;
 //-----------------------------   virage  ---------------------  +  -
        case DROITE : 
-       case DROITE1 : 
+       case DROITE1 :
+         isr_compte = TOURS ; isr_compte2 = TOURS ; // initialise avec erreur précédente 
             moteur(droite,vitesse);countM++;if(programmation) empile( droite);
             break;
        case   GAUCHE :
        case   GAUCHE1 :
+         isr_compte = TOURS ; isr_compte2 = TOURS ; // initialise avec erreur précédente
             moteur(gauche,vitesse);countM++;if(programmation) empile( gauche);
             break;
 //---------------- STOP---------------
       case   STOP :
       case   STOP1 :
             stop();
-            Index=0;erreur=0;erreur2=0;  isr_compte = TOURS + 1;isr_compte2 = TOURS+1;lastDirection = avant;
+            Index=0;erreur=0;erreur2=0;  isr_compte = 0 ;isr_compte2 = 0 ;lastDirection = avant;
             break;
             
 //---------------- ARRET touche rouge ---------------
