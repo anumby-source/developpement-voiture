@@ -10,7 +10,7 @@ Voiture LUDOMAT avec 2 roues codeuses
 - __2 cellules photovoltaïques__
 - __2 résistances__
 
-# Schema electrique
+# Schema electrique partiel
 
 ![image](https://github.com/anumby-source/developpement-voiture/assets/90700891/3b7ca4c9-fa1a-48a8-b956-838a0c0d54a6)
 
