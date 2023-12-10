@@ -3,7 +3,7 @@
 Voiture LUDOMAT avec 2 roues codeuses
 
 # Liste de materiel:
-- __ESP8266 Nodemcu__ : https://fr.aliexpress.com/item/32659028315.html?spm=a2g0o.order_list.order_list_main.51.5f2c5e5bFkj0JY&gatewayAdapt=glo2fra
+- __ESP8266 mini D1__ : 
 - __shield moteur L9110__ : 
 - __capteur ultrason HC-SR04__
 - __diode neopixel ws2811__
