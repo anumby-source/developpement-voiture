@@ -12,7 +12,8 @@ Voiture LUDOMAT avec 2 roues codeuses
 
 # Schema electrique
 
-![image](https://github.com/arnaudrco/exemples/assets/90700891/81cc572a-b916-4dc6-a42f-3a9e503c39aa)
+![image](https://github.com/anumby-source/developpement-voiture/assets/90700891/3b7ca4c9-fa1a-48a8-b956-838a0c0d54a6)
+
 
 
 
