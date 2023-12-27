@@ -162,7 +162,7 @@ void moteurH(int x){
    if (i<= 0  ) { 
       stop();   
    } else {
-      if ( i > 10 ) moteur(x, vitesse); else {
+      if ( i > FREINAGE ) moteur(x, vitesse); else {
           int t = min( isr_ms, isr_ms2 ) ; // durée entre ticks
           int t_objectif =  frein ; 
           if ( t > t_objectif ) moteur(x, vitesse); else moteur(x, vitesse/2);
