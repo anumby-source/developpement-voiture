@@ -9,7 +9,6 @@ MODELE PROGRAMMABLE
 pas de 15 cm
 correction des erreurs automatique entre les 2 moteurs ( v / TRIM ) 
 freinage sur les derniers cm
-sonde pour les durées de parcours
 
  */
 #include "telecommande.h"
@@ -153,8 +152,8 @@ void moteurH(int x){
    } else {
       if ( i > 10 ) moteur(x, vitesse); else {
           int t = min( isr_ms, isr_ms2 ) ; // durée entre ticks
-          int t_objectif =  frein / i ; 
-          if ( t > t_objectif ) moteur(x, vitesse); else moteur(x, 0);
+          int t_objectif =  frein ; 
+          if ( t > t_objectif ) moteur(x, vitesse); else moteur(x, vitesse/2);
       }
    } 
 }
@@ -254,45 +253,47 @@ void loop() {
       case PLUS : 
       case PLUS1 : 
         // vitesse += 10;
-        frein += 10;
-        if(vitesse > 255) vitesse=255;
+        frein -= 5;
+        if(frein < 0) frein=10;
              break;
       case MOINS :
       case MOINS1 :
-        frein -= 10;
-        if(frein <10 ) frein=10;
+        frein += 5;
+        if(frein > 100 ) frein=100;
              break;
 //-----------------------------   moteur 1 ou 2  ---------------------  <<  >>
       case UP : 
       case UP1 : 
-        isr_compte = PARCOURS ; isr_compte2 = PARCOURS ; // initialise avec erreur précédente
            if(programmation)  {
             empile( avant); 
             stop();
            } else {
+            isr_compte = PARCOURS ; isr_compte2 = PARCOURS ; // initialise avec erreur précédente
             moteur(avant,vitesse);countM++;
            }
              break;
       case DOWN :
       case DOWN1 :
-        isr_compte = PARCOURS ; isr_compte2 = PARCOURS ; // initialise avec erreur précédente
             if(programmation){
               empile( arriere); stop();
             }
             else {
-              moteur(arriere,vitesse);countM++;
+               isr_compte = PARCOURS ; isr_compte2 = PARCOURS ; // initialise avec erreur précédente
+               moteur(arriere,vitesse);countM++;
             }
              break;
 //-----------------------------   virage  ---------------------  +  -
        case RIGHT : 
        case RIGHT1 :
-         isr_compte = TOURS ; isr_compte2 = TOURS ; // initialise avec erreur précédente 
-            moteur(droite,vitesse);countM++;if(programmation) empile( droite);
-            break;
+             isr_compte = TOURS ; isr_compte2 = TOURS ; // initialise avec erreur précédente
+             moteur(droite,vitesse);countM++;
+             if(programmation) empile( droite);        
+             break;
        case   LEFT :
        case   LEFT1 :
-         isr_compte = TOURS ; isr_compte2 = TOURS ; // initialise avec erreur précédente
-            moteur(gauche,vitesse);countM++;if(programmation) empile( gauche);
+            isr_compte = TOURS ; isr_compte2 = TOURS ; // initialise avec erreur précédente
+            moteur(gauche,vitesse);countM++;       
+            if(programmation) empile( gauche);
             break;
 //---------------- STOP---------------
       case   ENTER :
@@ -305,6 +306,7 @@ void loop() {
       case   ONOFF1 :
             stop(); // arret moteur
             programmation = 1 ;
+            Index=0;erreur=0;erreur2=0;  isr_compte = 0 ;isr_compte2 = 0 ;lastDirection = avant;
             break;
    //---------------- retour  ---------------
       case   BACK :
