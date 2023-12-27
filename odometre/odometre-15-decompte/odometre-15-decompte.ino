@@ -23,21 +23,6 @@ freinage sur les derniers cm
 #define ISR D7
 #define ISR2 D5
 
-// ------------- télécommande
-
-#define HAUT 0x205D609F
-#define DROITE 0x205D58A7
-#define BAS 0x205D40BF
-#define GAUCHE 0x205D708F
-#define STOP  0x205DE01F
-#define ARRET  0x205D38C7
-// ------------- ajout d'un 2° télécommande
-#define HAUT1 0x1FE1CE3
-#define DROITE1 0x1FE9C63
-#define BAS1 0x1FE02FD
-#define GAUCHE1 0x1FEEC13
-#define STOP1  0x1FEC837
-#define ARRET1  0x1FE817E 
 // ------------- direction
 #define avant 1
 #define arriere 2
