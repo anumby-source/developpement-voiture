@@ -10,6 +10,33 @@ pas de 15 cm
 correction des erreurs automatique entre les 2 moteurs ( v / TRIM ) 
 freinage sur les derniers cm
 
+Les 3 paramètres de controle sont donnés en nombre de tics/tacs de l'odomètre
+
+#define TOURS 20 // tours pour faire 90 °  
+#define PARCOURS 25 // parcours 15 cm
+#define FREINAGE 10 // freinage sur les derniers "tics"
+
+Sonde[PARCOURS] donne les durées entre les tics/tacs de l'odomètre sur la sortie USB en nombre décroissant ( 0,0 = point d'arrivée )
+
+EXEMPLE :
+
+ISR 0:1K 50
+36,22 19,23 29,40 16,18 27,32 14,16 23,26 12,13 20,22 11,10 19,21 12,11 20,21 12,11 22,23 13,12 25,25 17,14 41,34 24356,24352 0,0 0,0 0,0 0,0 0,0
+
+36,22 >> 36 tics à droite et 22 à gauche
+
+ISR 0:1 >> position d'arrivée réalisée
+
+K 50 >> coefficient K : commande tout ou rien pour une durée avec un seuil objectif de 50 ms entre tics
+
+phase freinage dans les 10 derniers tics
+
+36,22 19,23 29,40 16,18 27,32 14,16 23,26 12,13 20,22
+
+accélération de départ
+
+11,10 19,21 12,11 20,21 12,11 22,23 13,12 25,25 17,14 41,34 24356,24352
+
  */
 #include "telecommande.h"
 
