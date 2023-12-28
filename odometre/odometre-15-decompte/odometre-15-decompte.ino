@@ -10,13 +10,13 @@ pas de 15 cm
 correction des erreurs automatique entre les 2 moteurs ( v / TRIM ) 
 freinage sur les derniers cm
 
-Les 3 paramètres de controle sont donnés en nombre de tics/tacs de l'odomètre
+es 3 paramètres de controle sont donnés en nombre de tics/tacs de l'odomètre
 
-#define TOURS 20 // tours pour faire 90 °  
-#define PARCOURS 25 // parcours 15 cm
-#define FREINAGE 10 // freinage sur les derniers "tics"
+#define TICS_TOURS 20 // tours pour faire 90 °  
+#define TICS_PARCOURS 25 // parcours 15 cm
+#define TICS_FREINAGE 10 // freinage sur les derniers "tics"
 
-Sonde[PARCOURS] donne les durées entre les tics/tacs de l'odomètre sur la sortie USB en nombre décroissant ( 0,0 = point d'arrivée )
+Sonde[TICS_PARCOURS] donne les durées entre les tics/tacs de l'odomètre sur la sortie USB en nombre décroissant ( 0,0 = point d'arrivée )
 
 EXEMPLE :
 
@@ -73,17 +73,17 @@ int erreur2=0;
 // ---------------------------Forth-------------
 #define TRIM 2 // erreur entre moteur 
 #define NEUTRE 0 // zone neutre aveugle entre moteurs
-#define TOURS 20 // tours pour faire 90 °  
-#define PARCOURS 25 // parcours 15 cm
-#define FREINAGE 10 // freinage sur les derniers cm
+#define TICS_TOURS 20 // tours pour faire 90 °  
+#define TICS_PARCOURS 25 // parcours 15 cm
+#define TICS_FREINAGE 10 // freinage sur les derniers cm
 #define MAX 100
 int Index=0;
 byte Forth[MAX]; // pile Forth
 int vitesse = 255;  // 0 à 255
 int programmation=0;
 int frein=50;
-int Sonde[PARCOURS]; // temps de parcours par tick
-int Sonde2[PARCOURS];
+int Sonde[TICS_PARCOURS]; // temps de parcours par tick
+int Sonde2[TICS_PARCOURS];
 
 IRrecv irrecv(IR);
 decode_results results;
@@ -126,8 +126,8 @@ ICACHE_RAM_ATTR void isr2() {
   if ( isr_compte2 >= 0 ) Sonde2[isr_compte2] = isr_ms2;
   isr_timer2 += isr_ms2;
 }
-void printSonde(){
-  for (int i =0 ; i < PARCOURS ; i++)  {
+void printSonde(){ // sonde de visualisation de l'algo
+  for (int i =0 ; i < TICS_PARCOURS ; i++)  {
       Serial.print(Sonde[i]); // temps de parcours par tick
       Serial.print(","); 
       Serial.print(Sonde2[i]); // temps de parcours par tick
@@ -143,26 +143,26 @@ void empile( byte x ){
 }
 void execute() {
   for(int x=0 ; x < Index ; x++){
-    moteurC(Forth[x]);
+    moteurTimerFixe(Forth[x]);
   }   
 //  Index=0; mémorise le trajet depuis le début
 }
-void moteurC( int x){
+void moteurTimerFixe( int x){ // routine temporisée suivant un timer fixe pour l'éxécution de la pile 
       timer= millis();
-    isr_compte = TOURS; isr_compte2 = TOURS;
+    isr_compte = TICS_TOURS; isr_compte2 = TICS_TOURS;
     while ( ( millis() - timer ) < 1000)
     {
-          moteurH(x);
+          moteurAsynchrone(x);
         
     }
         stop();   
 }
-void moteurH(int x){ 
+void moteurAsynchrone(int x){ // routine asynchone de lancement du moteur suivant la direction x dans la boucle de lecture IR
   int i=max(isr_compte,isr_compte2); // nb de ticks restants 
    if (i<= 0  ) { 
       stop();   
    } else {
-      if ( i > FREINAGE ) moteur(x, vitesse); else {
+      if ( i > TICS_FREINAGE ) moteur(x, vitesse); else {
           int t = min( isr_ms, isr_ms2 ) ; // durée entre ticks
           int t_objectif =  frein ; 
           if ( t > t_objectif ) moteur(x, vitesse); else moteur(x, vitesse/2);
@@ -255,7 +255,7 @@ void loop() {
        stop();
     }
   }
-  moteurH(lastDirection); // impulsion 
+  moteurAsynchrone(lastDirection); // impulsion 
   if (irrecv.decode(&results)) {
       mmm= millis();    dodo= millis();
     // print() & println() can't handle printing long longs. (uint64_t)
@@ -280,7 +280,7 @@ void loop() {
             empile( avant); 
             stop();
            } else {
-            isr_compte = PARCOURS ; isr_compte2 = PARCOURS ; // initialise avec erreur précédente
+            isr_compte = TICS_PARCOURS ; isr_compte2 = TICS_PARCOURS ; // initialise avec erreur précédente
             moteur(avant,vitesse);countM++;
            }
              break;
@@ -290,20 +290,20 @@ void loop() {
               empile( arriere); stop();
             }
             else {
-               isr_compte = PARCOURS ; isr_compte2 = PARCOURS ; // initialise avec erreur précédente
+               isr_compte = TICS_PARCOURS ; isr_compte2 = TICS_PARCOURS ; // initialise avec erreur précédente
                moteur(arriere,vitesse);countM++;
             }
              break;
 //-----------------------------   virage  ---------------------  +  -
        case RIGHT : 
        case RIGHT1 :
-             isr_compte = TOURS ; isr_compte2 = TOURS ; // initialise avec erreur précédente
+             isr_compte = TICS_TOURS ; isr_compte2 = TICS_TOURS ; // initialise avec erreur précédente
              moteur(droite,vitesse);countM++;
              if(programmation) empile( droite);        
              break;
        case   LEFT :
        case   LEFT1 :
-            isr_compte = TOURS ; isr_compte2 = TOURS ; // initialise avec erreur précédente
+            isr_compte = TICS_TOURS ; isr_compte2 = TICS_TOURS ; // initialise avec erreur précédente
             moteur(gauche,vitesse);countM++;       
             if(programmation) empile( gauche);
             break;
