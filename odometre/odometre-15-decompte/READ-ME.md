@@ -29,6 +29,9 @@ Avant de lancer la compilation, selectionner la carte __NodeMCU 0.9__ (ou (1.0).
 
 Pour régler la rotation sur 90°, ajouter + ou réduire - avec les touches
 
+![image](https://github.com/anumby-source/developpement-voiture/assets/90700891/b52bbf80-91bf-4f05-8673-cc6205ba25f6)
+
+
 ![](./telecommande.png)
 
 # Autres robots
