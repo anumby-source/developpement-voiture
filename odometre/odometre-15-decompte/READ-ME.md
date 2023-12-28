@@ -31,9 +31,6 @@ Pour régler la rotation sur 90°, ajouter + ou réduire - avec les touches
 
 ![image](https://github.com/anumby-source/developpement-voiture/assets/90700891/b52bbf80-91bf-4f05-8673-cc6205ba25f6)
 
-
-![](./telecommande.png)
-
 # Autres robots
 
 https://github.com/arnaudrco/visio/wiki/Robots
