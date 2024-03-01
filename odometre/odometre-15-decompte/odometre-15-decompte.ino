@@ -9,8 +9,9 @@ MODELE PROGRAMMABLE
 pas de 15 cm
 correction des erreurs automatique entre les 2 moteurs ( v / TRIM ) 
 freinage sur les derniers cm
+fonction mask de sélection de télécommande unique
 
-es 3 paramètres de controle sont donnés en nombre de tics/tacs de l'odomètre
+les 3 paramètres de controle sont donnés en nombre de tics/tacs de l'odomètre
 
 #define TICS_TOURS 20 // tours pour faire 90 °  
 #define TICS_PARCOURS 25 // parcours 15 cm
@@ -39,6 +40,10 @@ accélération de départ
 
  */
 #include "telecommande.h"
+#include <Adafruit_NeoPixel.h>
+#define PIN        D8 // On Trinket or Gemma, suggest changing this to 1
+#define NUMPIXELS 1 // Popular NeoPixel ring size
+Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800); 
 
 #define moteur1A D1
 #define moteur1B D2
@@ -46,7 +51,6 @@ accélération de départ
 #define moteur2B D4
 
 #define IR D6
-#define GND D8
 #define ISR D7
 #define ISR2 D5
 
@@ -58,6 +62,7 @@ accélération de départ
 
 #define TEMPO 1000 // temporisation 
 
+int mask ; // masque des interruptions IR
 int lastDirection = 1;
 int lastRotation = 0; // sens de rotation 
 int isr_compte; // décompte pour 1 tour 
@@ -92,13 +97,17 @@ int countM=0 , countD=0 ; // nb d'impulsions IR reçues
 
 
 void setup() {
+
+
+  pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
+                                pixels.setPixelColor(0, pixels.Color(0, 0, 128));pixels.show(); // BLEU
   pinMode(ISR, INPUT_PULLUP);
     pinMode(ISR2, INPUT_PULLUP);
     attachInterrupt(ISR,isr,CHANGE);
         attachInterrupt(ISR2,isr2,CHANGE);
  //   attachInterrupt(ISR,isr,FALLING); 
-  pinMode(GND, OUTPUT);      // board IR
-  digitalWrite(GND, LOW);
+//  pinMode(GND, OUTPUT);      // board IR
+//  digitalWrite(GND, LOW);
   Serial.begin(115200);
     empile(droite);
  empile(gauche);
@@ -260,6 +269,11 @@ void loop() {
       mmm= millis();    dodo= millis();
     // print() & println() can't handle printing long longs. (uint64_t)
     serialPrintUint64(results.value, HEX);
+   if ( (mask == 0) && ((results.value == ONOFF) || (results.value == ONOFF1)) )  { // premier appui sur ON OFF
+       mask = results.value >> 16 ; // enregistre le masque 
+       pixels.setPixelColor(0, pixels.Color(128, 0, 0));pixels.show(); // execution VERT
+   }
+   else if ( results.value >> 16 == mask ) {
     switch (results.value){
 //------------------ vitesse --------------------
       case PLUS : 
@@ -316,17 +330,21 @@ void loop() {
 //---------------- ON/OFF touche rouge ---------------
       case   ONOFF :
       case   ONOFF1 :
+
             stop(); // arret moteur
             programmation = 1 ;
+                  pixels.setPixelColor(0, pixels.Color(0, 128, 0));pixels.show(); // programmation ROUGE
             Index=0;erreur=0;erreur2=0;  isr_compte = 0 ;isr_compte2 = 0 ;lastDirection = avant;
             break;
    //---------------- retour  ---------------
       case   BACK :
       case   BACK1 :
             stop();
-           execute();
             programmation = 0 ;
+                          pixels.setPixelColor(0, pixels.Color(128, 0, 0));pixels.show(); // execution VERT
+                                     execute();
             break;
+    }
    }
     Serial.println("");
     irrecv.resume();  // Receive the next value
