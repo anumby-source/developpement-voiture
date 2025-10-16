@@ -23,7 +23,7 @@ time.sleep(1)  # Attendre encore une seconde
 
 # Afficher du texte sur l'écran OLED
 oled.text('Bonjour,', 0, 0)  # Afficher "Hello," à la position (0, 0)
-oled.text('ANUMBY', 0, 16)  # Afficher "sunfounder.com" à la position (0, 16)
+oled.text('ANUMBY', 0, 16)  # Afficher ANUMBY à la position (0, 16)
 
 # La ligne suivante envoie ce qu'il faut afficher à l'écran
 oled.show()
@@ -54,7 +54,7 @@ while True:
     host, msg = e.recv()
     if msg:             # msg == None if timeout in recv()
         print(host, msg)
-        oled.text(msg, 0, 48)
+        oled.text(msg, 0, 48) 
         oled.show()
         if msg == b'end':
             break
