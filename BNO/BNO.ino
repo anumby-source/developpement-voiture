@@ -113,7 +113,7 @@ void displayCalStatus(void)
   }
 
   /* Display the individual values */
-  Serial.print("Sys:");
+  Serial.print("  S:");
   Serial.print(system, DEC);
   Serial.print(" G:");
   Serial.println(gyro, DEC);
@@ -121,6 +121,18 @@ void displayCalStatus(void)
   Serial.println(accel, DEC);
   Serial.print(" M:");
   Serial.println(mag, DEC);
+
+    display.print(" S:");
+  display.print(system, DEC);
+  display.print(" G:");
+  display.println(gyro, DEC);
+  display.print(" A:");
+  display.print(accel, DEC);
+  display.print(" M:");
+  display.println(mag, DEC);
+
+
+  
 }
 
 /**************************************************************************/
@@ -221,8 +233,10 @@ void loop(void)
     display.clearDisplay();
       display.setTextSize(0);
   display.setTextColor(WHITE);
+  display.setTextSize(2);
   display.setCursor(0,0);
   display.println("BNO055");
+  display.setTextSize(1);
   display.print("X: ");
   display.println(event.orientation.x, 4);
   display.print("Y: ");
@@ -230,9 +244,10 @@ void loop(void)
   display.print("Z: ");
   display.println(event.orientation.z, 4);
   
-    display.display();
+
   /* Optional: Display calibration status */
   displayCalStatus();
+      display.display();
 
   /* Optional: Display sensor status (debug only) */
   //displaySensorStatus();
