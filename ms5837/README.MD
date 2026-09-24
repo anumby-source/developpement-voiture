@@ -1,13 +1,14 @@
 
-#  Balise HC-12 avec un arduino
+# capteur de pression
 
-HC est branché sur pin 10 et 11 ( jaune et vert )
+Comment réaliser un interrupteur qui va couper la pompe lorsque la pression de consigne est atteinte ? j'utilise un capteur ms5837
 
-<img width="238" height="301" alt="image" src="https://github.com/user-attachments/assets/d5caed83-faca-43e5-a6ea-fd45dc76e1cb" />
+<img width="589" height="513" alt="image" src="https://github.com/user-attachments/assets/529ab7ee-4bef-4ccd-8992-3028bdff3f30" />
 
+Il existe un programme Python pour ce capteur ; voici le montage réalisé avec un écran OLED et un controleur esp32c3 
 
-voici le message reçu 
+<img width="357" height="290" alt="image" src="https://github.com/user-attachments/assets/352a28b7-b7bb-487a-b2a8-7a710813c798" />
 
-<img width="516" height="323" alt="image" src="https://github.com/user-attachments/assets/6a30bbbd-bfcd-44e0-b1ef-9f1e3afd599e" />
+lien vers la réparation d'une pompe pour Kitesurf
 
-https://github.com/arnaudrco/CROUS-micro-python/wiki/HC%E2%80%9012-port-s%C3%A9rie-distant
+https://github.com/arnaudrco/exemples/wiki/Pompe-Kitesurf
